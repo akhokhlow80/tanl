@@ -34,6 +34,11 @@ up() (
         preshared-key "$TERM_PSK_PATH"                 \
         endpoint "$TERM_HOP1_ENDPOINT"                 \
         allowed-ips 0.0.0.0/0,::/0
+      if [[ $TERM_HOP1_OBFUSCATE ]]; then
+        v "$WG" set $WGTERM        \
+          peer "$TERM_HOP1_PUBKEY" \
+          obfuscate true
+      fi
       v ip addr add "$TERM_ADDR" dev $WGTERM
       v ip addr add "$TERM_ADDR6" dev $WGTERM
       v ip link set dev $WGTERM up

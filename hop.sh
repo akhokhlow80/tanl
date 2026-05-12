@@ -49,6 +49,11 @@ up() (
         endpoint "$HOP1_TERM_ENDPOINT" \
         preshared-key "$TERM_PSK_PATH" \
         allowed-ips 0.0.0.0/0,::/0
+      if [[ $HOP1_TERM_OBFUSCATE ]]; then
+        n "$WG" set $WG1           \
+          peer "$HOP1_TERM_PUBKEY" \
+          obfuscate true
+      fi
 
       # wg0
       wg_create_if $WG0
