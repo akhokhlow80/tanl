@@ -1,0 +1,14 @@
+[Unit]
+Description=tanlterm
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=TERM_WGIF=%i
+ExecStart=/usr/bin/tanlterm up /etc/tanl/term/%i/config.sh
+ExecStop=/usr/bin/tanlterm down /etc/tanl/term/%i/config.sh
+
+[Install]
+WantedBy=multi-user.target
+
+

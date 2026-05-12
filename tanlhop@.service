@@ -1,0 +1,13 @@
+[Unit]
+Description=tanlhop
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=HOP_NS=%i
+ExecStart=/usr/bin/tanlhop up /etc/tanl/hop/%i/config.sh
+ExecStop=/usr/bin/tanlhop down /etc/tanl/hop/%i/config.sh
+
+[Install]
+WantedBy=multi-user.target
+

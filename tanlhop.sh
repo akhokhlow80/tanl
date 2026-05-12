@@ -2,10 +2,6 @@
 
 set -e
 
-NS=tanlhop
-WG0=tanlhop0
-WG1=tanlhop1
-
 v() {
 	>&2 echo "[#] $@"
 	"$@"
@@ -45,13 +41,13 @@ up() (
       n ip addr add "$HOP1_ADDR6" dev $WG1
       n ip link set dev $WG1 up
       n "$WG" set $WG1                 \
-        peer "$HOP1_TERM_PUBKEY"       \
-        endpoint "$HOP1_TERM_ENDPOINT" \
+        peer "$TERM_PUBKEY"            \
+        endpoint "$TERM_ENDPOINT"      \
         preshared-key "$TERM_PSK_PATH" \
         allowed-ips 0.0.0.0/0,::/0
-      if [[ $HOP1_TERM_OBFUSCATE ]]; then
-        n "$WG" set $WG1           \
-          peer "$HOP1_TERM_PUBKEY" \
+      if [[ $TERM_OBFUSCATE ]]; then
+        n "$WG" set $WG1      \
+          peer "$TERM_PUBKEY" \
           obfuscate true
       fi
 
@@ -93,12 +89,16 @@ up() (
   set -e
 )
 
-if [[ $# -ne 1 ]]; then
-  >&2 echo "usage: $0 { up | down }"
+if [[ $# -ne 2 ]]; then
+  >&2 echo "usage: $0 { up | down } <path to config bash script>"
   exit 1
 fi
 
-v source config.sh
+v source "$2"
+
+NS=$HOP_NS
+WG0=tanlhop0
+WG1=tanlhop1
 
 case "$1" in
   "up")

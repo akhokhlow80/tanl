@@ -2,8 +2,6 @@
 
 set -e
 
-WGTERM=tanlterm
-
 v() {
 	>&2 echo "[#] $@"
 	"$@"
@@ -29,14 +27,14 @@ up() (
       v "$WG" set $WGTERM                \
         private-key "$TERM_PRIVKEY_PATH" \
       	listen-port "$TERM_PORT"
-      v "$WG" set $WGTERM                              \
-        peer "$TERM_HOP1_PUBKEY"                       \
-        preshared-key "$TERM_PSK_PATH"                 \
-        endpoint "$TERM_HOP1_ENDPOINT"                 \
+      v "$WG" set $WGTERM                   \
+        peer "$HOP1_PUBKEY"                 \
+        preshared-key "$HOP1_PSK_PATH"      \
+        endpoint "$HOP1_ENDPOINT"           \
         allowed-ips 0.0.0.0/0,::/0
-      if [[ $TERM_HOP1_OBFUSCATE ]]; then
-        v "$WG" set $WGTERM        \
-          peer "$TERM_HOP1_PUBKEY" \
+      if [[ $HOP1_OBFUSCATE ]]; then
+        v "$WG" set $WGTERM   \
+          peer "$HOP1_PUBKEY" \
           obfuscate true
       fi
       v ip addr add "$TERM_ADDR" dev $WGTERM
@@ -58,12 +56,14 @@ up() (
   set -e
 )
 
-if [[ $# -ne 1 ]]; then
-  >&2 echo "usage: $0 { up | down }"
+if [[ $# -ne 2 ]]; then
+  >&2 echo "usage: $0 { up | down } <path to config bash script>"
   exit 1
 fi
 
-v source config.sh
+v source "$2"
+
+WGTERM=$TERM_WGIF
 
 case "$1" in
   "up")
