@@ -74,7 +74,7 @@ up() (
       # n ip route add 0.0.0.0/0 dev $WG1 table $ROUTING_TABLE
 
       n ip a
-      n wg
+      n "$WG"
     )
   }
 

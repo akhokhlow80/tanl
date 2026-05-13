@@ -43,6 +43,8 @@ up() (
       v ip link set dev lo up
       v iptables -t nat -I POSTROUTING -o "$TERM_OUT_IF" -j MASQUERADE
       v ip6tables -t nat -I POSTROUTING -o "$TERM_OUT_IF" -j MASQUERADE
+      v "$WG" $WGTERM
+      v ip a $WGTERM
     )
   }
   set +e
