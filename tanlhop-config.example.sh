@@ -28,3 +28,25 @@ export TERM_ENDPOINT=127.0.0.1:2001
 export TERM_ADDR=10.100.0.3/16
 export TERM_ADDR6=fdb8:c88e:f182:6d9c::3/112
 # export TERM_OBFUSCATE=true
+
+# hooks
+
+pre_up() {
+
+}
+
+post_up() {
+
+}
+
+up_failed() {
+
+}
+
+pre_down() {
+
+}
+
+post_down() {
+
+}

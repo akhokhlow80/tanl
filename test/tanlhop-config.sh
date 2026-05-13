@@ -26,3 +26,25 @@ export TERM_ENDPOINT=127.0.0.1:2001
 export TERM_ADDR=10.100.0.3/16
 export TERM_ADDR6=fdb8:c88e:f182:6d9c::3/112
 # export TERM_OBFUSCATE=true
+
+# hooks
+
+pre_up() {
+  >&2 echo "PRE_UP HOOK!!!"
+}
+
+post_up() {
+  >&2 echo "POST_UP HOOK!!!"
+}
+
+up_failed() {
+  >&2 echo "UP_FAILED HOOK!!!"
+}
+
+pre_down() {
+  >&2 echo "PRE_DOWN HOOK!!!"
+}
+
+post_down() {
+  >&2 echo "POST_DOWN HOOK!!!"
+}

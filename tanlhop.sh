@@ -91,6 +91,7 @@ up() (
   if [[ $? -ne 0 ]]; then
     >&2 echo 'FAIL'
     >&2 echo 'CLEANUP'
+    up_failed
     down
     return 1
   fi
@@ -110,10 +111,14 @@ WG1=tanlhop1
 
 case "$1" in
   "up")
+    pre_up
     up
+    post_up
     ;;
   "down")
+    pre_down
     down
+    post_down
     ;;
   *)
     >&2 echo "unknown command $1"
