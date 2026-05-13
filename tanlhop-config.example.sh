@@ -10,6 +10,8 @@ export WG=/usr/bin/wg
 
 export HOP_NS=${HOP_NS:-tanlhop} # Set by systemd unit file
 
+# export DISABLE_IPV6=1
+
 export HOP0_PRIVKEY_PATH=/etc/tanl/hop/$HOP_NS/private_key
 export HOP0_LISTEN_PORT=1000
 export HOP0_ADDR=10.100.0.1/16

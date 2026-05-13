@@ -10,10 +10,14 @@ v() {
 down() {
   set +e
   v iptables -t nat -D POSTROUTING -o "$TERM_OUT_IF" -j MASQUERADE
-  v ip6tables -t nat -D POSTROUTING -o "$TERM_OUT_IF" -j MASQUERADE
+  if [[ -z "$DISABLE_IPV6" ]]; then
+    v ip6tables -t nat -D POSTROUTING -o "$TERM_OUT_IF" -j MASQUERADE
+  fi
   v ip link del $WGTERM
   v sysctl -w net.ipv4.ip_forward=0
-  v sysctl -w net.ipv6.conf.all.forwarding=0
+  if [[ -z "$DISABLE_IPV6" ]]; then
+    v sysctl -w net.ipv6.conf.all.forwarding=0
+  fi
   return 0
 }
 
@@ -22,7 +26,9 @@ up() (
     (
       set -e
       v sysctl -w net.ipv4.ip_forward=1
-      v sysctl -w net.ipv6.conf.all.forwarding=1
+      if [[ -z "$DISABLE_IPV6" ]]; then
+        v sysctl -w net.ipv6.conf.all.forwarding=1
+      fi
       wg_create_if $WGTERM
       v "$WG" set $WGTERM                \
         private-key "$TERM_PRIVKEY_PATH" \
@@ -38,13 +44,16 @@ up() (
           obfuscate true
       fi
       v ip addr add "$TERM_ADDR" dev $WGTERM
-      v ip addr add "$TERM_ADDR6" dev $WGTERM
+      if [[ -z "$DISABLE_IPV6" ]]; then
+        v ip addr add "$TERM_ADDR6" dev $WGTERM
+      fi
       v ip link set dev $WGTERM up
       v ip link set dev lo up
       v iptables -t nat -I POSTROUTING -o "$TERM_OUT_IF" -j MASQUERADE
-      v ip6tables -t nat -I POSTROUTING -o "$TERM_OUT_IF" -j MASQUERADE
-      v "$WG" $WGTERM
-      v ip a $WGTERM
+      if [[ -z "$DISABLE_IPV6" ]]; then
+        v ip6tables -t nat -I POSTROUTING -o "$TERM_OUT_IF" -j MASQUERADE
+      fi
+      v "$WG" show $WGTERM
     )
   }
   set +e

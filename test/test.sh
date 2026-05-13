@@ -54,14 +54,14 @@ cleanup() {
   v ip netns del "$NSCLIENT0"
   v ip netns del "$NSCLIENT1"
   >&2 echo 'CLEANUP'
-  "$hop" down "$hop_config"
-  "$term" down "$term_config"
+  v "$hop" down "$hop_config"
+  v "$term" down "$term_config"
 }
+
+trap cleanup EXIT INT TERM
 
 v "$hop" up "$hop_config"
 v "$term" up "$term_config"
-
-trap cleanup EXIT INT TERM
 
 v umask 077
 client0_privkey_path=$(mktemp)
@@ -81,7 +81,9 @@ c0 "$WG" set $WGCLIENT0                   \
   endpoint "$HOP0_ENDPOINT"               \
   allowed-ips 0.0.0.0/0,::/0
 c0 ip addr add "$TEST_CLIENT0_ADDR" dev $WGCLIENT0
-c0 ip addr add "$TEST_CLIENT0_ADDR6" dev $WGCLIENT0
+if [[ -z "$DISABLE_IPV6" ]]; then
+  c0 ip addr add "$TEST_CLIENT0_ADDR6" dev $WGCLIENT0
+fi
 c0 ip link set dev $WGCLIENT0 up
 c0 ip link set dev lo up
 c0 ip route add default dev $WGCLIENT0
@@ -103,7 +105,9 @@ c1 "$WG" set $WGCLIENT1     \
   endpoint "$HOP0_ENDPOINT" \
   allowed-ips 0.0.0.0/0,::/0
 c1 ip addr add "$TEST_CLIENT1_ADDR" dev $WGCLIENT1
-c1 ip addr add "$TEST_CLIENT1_ADDR6" dev $WGCLIENT1
+if [[ -z "$DISABLE_IPV6" ]]; then
+  c1 ip addr add "$TEST_CLIENT1_ADDR6" dev $WGCLIENT1
+fi
 c1 ip link set dev $WGCLIENT1 up
 c1 ip link set dev lo up
 c1 ip route add default dev $WGCLIENT1
@@ -115,10 +119,14 @@ n "$WG" set "$WGHOP0"                                                   \
 
 c0 ping -i0 -W1 -c3 "${TEST_CLIENT1_ADDR%/*}"
 c1 ping -i0 -W1 -c3 "${TEST_CLIENT0_ADDR%/*}"
-c0 ping -i0 -W1 -c3 "${TEST_CLIENT1_ADDR6%/*}"
-c1 ping -i0 -W1 -c3 "${TEST_CLIENT0_ADDR6%/*}"
+if [[ -z "$DISABLE_IPV6" ]]; then
+  c0 ping -i0 -W1 -c3 "${TEST_CLIENT1_ADDR6%/*}"
+  c1 ping -i0 -W1 -c3 "${TEST_CLIENT0_ADDR6%/*}"
+fi
 c0 ping -i0 -W1 -c3 "${TERM_ADDR%/*}"
-c0 ping -i0 -W1 -c3 "${TERM_ADDR6%/*}"
+if [[ -z "$DISABLE_IPV6" ]]; then
+  c0 ping -i0 -W1 -c3 "${TERM_ADDR6%/*}"
+fi
 c0 ping -W1 -c2 1.1.1.1
 c1 ping -W1 -c2 1.1.1.1
 
@@ -129,4 +137,4 @@ c1 iperf3 -s -1 -B "${TEST_CLIENT1_ADDR%/*}" &
 sleep 1
 c0 iperf3 -c "${TEST_CLIENT1_ADDR%/*}"
 
-c0 "$SHELL"
+# c0 "$SHELL"

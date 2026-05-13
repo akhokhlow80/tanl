@@ -29,7 +29,9 @@ up() (
       v ip netns add "$NS" 
       n ip link set dev lo up
       n sysctl -w net.ipv4.ip_forward=1
-      n sysctl -w net.ipv6.conf.all.forwarding=1
+      if [[ -z "$DISABLE_IPV6" ]]; then
+        n sysctl -w net.ipv6.conf.all.forwarding=1
+      fi
 
       # wg1
       wg_create_if $WG1
@@ -38,7 +40,9 @@ up() (
       	listen-port "$HOP1_LISTEN_PORT"
       v ip link set $WG1 netns "$NS"
       n ip addr add "$HOP1_ADDR" dev $WG1
-      n ip addr add "$HOP1_ADDR6" dev $WG1
+      if [[ -z "$DISABLE_IPV6" ]]; then
+        n ip addr add "$HOP1_ADDR6" dev $WG1
+      fi
       n ip link set dev $WG1 up
       n "$WG" set $WG1                 \
         peer "$TERM_PUBKEY"            \
@@ -58,11 +62,15 @@ up() (
       	listen-port "$HOP0_LISTEN_PORT"
       v ip link set $WG0 netns "$NS"
       n ip addr add "$HOP0_ADDR" dev $WG0
-      n ip addr add "$HOP0_ADDR6" dev $WG0
+      if [[ -z "$DISABLE_IPV6" ]]; then
+        n ip addr add "$HOP0_ADDR6" dev $WG0
+      fi
       n ip link set dev $WG0 up
 
       n ip route add "${TERM_ADDR%/*}/32" dev $WG1
-      n ip route add "${TERM_ADDR6%/*}/128" dev $WG1
+      if [[ -z "$DISABLE_IPV6" ]]; then
+        n ip route add "${TERM_ADDR6%/*}/128" dev $WG1
+      fi
       n ip route add default dev $WG1
 
       # policy based routing

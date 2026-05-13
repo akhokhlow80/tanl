@@ -8,6 +8,8 @@ export WG=/usr/bin/wg
 
 export HOP_NS=tanlhop
 
+# export DISABLE_IPV6=1
+
 export HOP0_PRIVKEY_PATH=test/hop_privkey
 export HOP0_LISTEN_PORT=1000
 export HOP0_ADDR=10.100.0.1/16

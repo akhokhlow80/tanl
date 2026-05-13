@@ -6,6 +6,8 @@ wg_create_if() {
 
 export WG=/usr/bin/wg
 
+# export DISABLE_IPV6=1
+
 export TERM_WGIF=tanlterm
 export TERM_PRIVKEY_PATH=test/term_privkey
 export TERM_PORT=2001

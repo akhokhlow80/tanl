@@ -8,6 +8,8 @@ wg_create_if() {
 
 export WG=/usr/bin/wg
 
+# export DISABLE_IPV6=1
+
 export TERM_WGIF=${TERM_WGIF:-tanlterm} # Set by systemd unit file
 export TERM_PRIVKEY_PATH=/etc/tanl/term/$TERM_WGIF/private_key
 export TERM_PORT=2001

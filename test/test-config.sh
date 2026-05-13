@@ -6,6 +6,8 @@ wg_create_if() {
 
 export WG=/usr/bin/wg
 
+# export DISABLE_IPV6=1
+
 export HOP0_PUBKEY=$(cat test/hop_privkey | wg pubkey)
 export HOP0_ENDPOINT=127.0.0.1:1000
 export HOP_NS=tanlhop
