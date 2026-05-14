@@ -43,3 +43,9 @@ systemctl enable --now tanlhop@$NS.service
 # To get hop public key:
 cat /etc/tanl/hop/$NS/private_key | wg pubkey
 ```
+
+## Test
+
+```bash
+./test/test.sh ./tanlhop.sh test/tanlhop-config.sh ./tanlterm.sh test/tanlterm-config.sh test/test-config.sh
+```
