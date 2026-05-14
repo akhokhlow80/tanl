@@ -31,6 +31,7 @@ umask 077
 
 mkdir -p /etc/tanl/hop/$NS
 cp hop/config.example.sh /etc/tanl/hop/$NS/config.sh
+cp -r hop/hooks /etc/tanl/hop/$NS/hooks # if hooks are needed
 
 # beware that config is an executable script!
 # don't forget to update tanlterm's public key
