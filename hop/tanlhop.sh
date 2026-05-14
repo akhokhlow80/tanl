@@ -83,7 +83,7 @@ up() (
   if [[ $? -ne 0 ]]; then
     >&2 echo 'FAIL'
     >&2 echo 'CLEANUP'
-    up_failed
+    v up_failed
     down
     return 1
   fi
@@ -104,14 +104,14 @@ IN_VETH=veth0
 
 case "$1" in
   "up")
-    pre_up
+    v pre_up
     up
-    post_up
+    v post_up
     ;;
   "down")
-    pre_down
+    v pre_down
     down
-    post_down
+    v post_down
     ;;
   *)
     >&2 echo "unknown command $1"
