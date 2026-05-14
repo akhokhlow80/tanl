@@ -32,21 +32,21 @@ export TERM_ADDR6=fdb8:c88e:f182:6d9c::3/112
 # hooks
 
 pre_up() {
-
+  :
 }
 
 post_up() {
-
+  :
 }
 
 up_failed() {
-
+  :
 }
 
 pre_down() {
-
+  :
 }
 
 post_down() {
-
+  :
 }
