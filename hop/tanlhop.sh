@@ -73,14 +73,6 @@ up() (
       fi
       n ip route add default dev $WG1
 
-      # policy based routing
-      # ROUTING_TABLE=10016
-      # n ip rule add iif $WG0 table $ROUTING_TABLE
-      # n ip route add "${TERM_ADDR%/*}/32" dev $WG1 table $ROUTING_TABLE
-      # n ip route add "${TERM_ADDR6%/*}/128" dev $WG1 table $ROUTING_TABLE
-      # n ip route add 10.100.0.0/16 dev $WG0 table $ROUTING_TABLE
-      # n ip route add 0.0.0.0/0 dev $WG1 table $ROUTING_TABLE
-
       n ip a
       n "$WG"
     )
@@ -108,6 +100,7 @@ v source "$2"
 NS=$HOP_NS
 WG0=tanlhop0
 WG1=tanlhop1
+IN_VETH=veth0
 
 case "$1" in
   "up")

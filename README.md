@@ -7,7 +7,7 @@ WGIF=tanlterm # choose the name of the wg interface
 umask 077
 
 mkdir -p /etc/tanl/term/$WGIF
-cp tanlterm-config.example.sh /etc/tanl/term/$WGIF/config.sh
+cp term/config.example.sh /etc/tanl/term/$WGIF/config.sh
 # beware that config is an executable script!
 # don't forget to update tanlhop's public key
 $EDITOR /etc/tanl/term/$WGIF/config.sh
@@ -30,7 +30,7 @@ NS=tanlhop # choose the name of the namespace (to be created in /var/run/netns)
 umask 077
 
 mkdir -p /etc/tanl/hop/$NS
-cp tanlhop-config.example.sh /etc/tanl/hop/$NS/config.sh
+cp hop/config.example.sh /etc/tanl/hop/$NS/config.sh
 
 # beware that config is an executable script!
 # don't forget to update tanlterm's public key
@@ -47,5 +47,5 @@ cat /etc/tanl/hop/$NS/private_key | wg pubkey
 ## Test
 
 ```bash
-./test/test.sh ./tanlhop.sh test/tanlhop-config.sh ./tanlterm.sh test/tanlterm-config.sh test/test-config.sh
+./test/test.sh hop/tanlhop.sh test/tanlhop-config.sh term/tanlterm.sh test/tanlterm-config.sh test/test-config.sh
 ```

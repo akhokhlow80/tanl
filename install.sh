@@ -10,7 +10,7 @@ v() {
 v mkdir -p /etc/tanl
 v chmod 600 /etc/tanl
 
-v install tanlhop.sh /usr/bin/tanlhop
-v install tanlhop@.service /etc/systemd/system
-v install tanlterm.sh /usr/bin/tanlterm
-v install tanlterm@.service /etc/systemd/system
+v install hop/tanlhop.sh /usr/bin/tanlhop
+v install hop/tanlhop@.service /etc/systemd/system
+v install term/tanlterm.sh /usr/bin/tanlterm
+v install term/tanlterm@.service /etc/systemd/system
