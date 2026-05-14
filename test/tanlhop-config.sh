@@ -23,8 +23,8 @@ export HOP1_ADDR6=fdb8:c88e:f182:6d9d::1/112
 export TERM_PSK_PATH=test/hop-term_psk
 export TERM_PUBKEY=$(cat test/term_privkey | wg pubkey)
 export TERM_ENDPOINT=127.0.0.1:2001
-export TERM_ADDR=10.100.0.3/16
-export TERM_ADDR6=fdb8:c88e:f182:6d9c::3/112
+export TERM_ADDR=10.100.0.2/16
+export TERM_ADDR6=fdb8:c88e:f182:6d9c::2/112
 # export TERM_OBFUSCATE=true
 
 # hooks
