@@ -29,12 +29,6 @@ export TERM_ADDR=10.100.0.2/16
 export TERM_ADDR6=fdb8:c88e:f182:6d9c::2/112
 # export TERM_OBFUSCATE=true
 
-export OUT_VETH=tanlhop
-export OUT_VETH_ADDR=10.100.0.3/16
-export OUT_VETH_ADDR6=fdb8:c88e:f182:6d9c::3/128
-export IN_VETH_ADDR=10.102.0.1/32
-export IN_VETH_ADDR6=fdb8:c88e:f182:6d9e::1/128
-
 # hooks
 
 pre_up() {
